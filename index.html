@@ -11,65 +11,63 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="app-shell">
-    <section class="hero-panel" aria-labelledby="product-title">
-      <div class="topbar">
+  <main>
+    <section class="hero" id="home" aria-labelledby="product-title">
+      <nav class="topbar" aria-label="Primary navigation">
         <a class="brand" href="#home" aria-label="Meet and Eat home">
-          <span class="brand-mark" aria-hidden="true">
-            <span></span>
-          </span>
+          <span class="brand-mark" aria-hidden="true"><span></span></span>
           <strong>Meet & Eat</strong>
         </a>
-        <nav class="topnav" aria-label="Primary navigation">
-          <a href="#match">Monthly Match</a>
-          <a href="#connects">All Connects</a>
-          <a href="#settings">Settings</a>
-        </nav>
-      </div>
+        <div class="nav-links">
+          <a href="#setup">Setup</a>
+          <a href="#match">Match</a>
+          <a href="#controls">Controls</a>
+        </div>
+      </nav>
 
-      <div class="hero-content" id="home">
+      <div class="hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow">One warm introduction every month</p>
-          <h1 id="product-title">Connect & learn from someone new, every month.</h1>
-          <p class="lead">Meet & Eat removes the effort of choosing who to network with. Sign in once, share a few interests, and receive one respectful global match by email each month.</p>
+          <p class="eyebrow">Connect & learn about someone new, every month</p>
+          <h1 id="product-title">A monthly introduction with a little surprise baked in.</h1>
+          <p class="lead">Meet & Eat pairs people globally so they can learn about each other's culture, work, and lifestyle without browsing profiles or sending cold messages.</p>
           <div class="hero-actions">
-            <a class="button primary" href="#profile">Sign in with LinkedIn</a>
-            <a class="button secondary" href="#match">Preview match reveal</a>
+            <a class="button primary" href="#setup">Sign in with LinkedIn</a>
+            <a class="button quiet" href="#match">See monthly reveal</a>
           </div>
-          <ul class="trust-list" aria-label="Key trust details">
-            <li>LinkedIn-only registration</li>
+          <ul class="trust-list" aria-label="Trust and control features">
+            <li>LinkedIn-only onboarding</li>
             <li>One email per month</li>
-            <li>Secure opt-out controls</li>
+            <li>Easy opt-outs if you are not available</li>
           </ul>
         </div>
-        <div class="hero-visual" aria-label="People connecting across cultures over conversation">
+        <figure class="hero-image">
           <img src="assets/meet-and-eat-hero.png" alt="Diverse people sharing conversations around tables in a warm global cafe setting.">
-        </div>
+        </figure>
       </div>
     </section>
 
-    <section class="flow-strip" aria-label="How Meet and Eat works">
+    <section class="compact-flow" aria-label="How Meet and Eat works">
       <article>
         <span>01</span>
-        <h2>Register once</h2>
-        <p>LinkedIn verifies identity and keeps the network intentional.</p>
+        <strong>Verify</strong>
+        <p>Use LinkedIn once so every introduction starts with identity and context.</p>
       </article>
       <article>
         <span>02</span>
-        <h2>Share context</h2>
-        <p>Language, interests, and a short bio help each match start well.</p>
+        <strong>Tune</strong>
+        <p>Add language, interests, and a short bio to make the first message easier.</p>
       </article>
       <article>
         <span>03</span>
-        <h2>Reveal monthly</h2>
-        <p>One secure email unlocks the next person to learn from.</p>
+        <strong>Reveal</strong>
+        <p>Open one monthly email, reveal the match, and decide when to connect.</p>
       </article>
     </section>
 
-    <section class="workspace-grid">
-      <aside class="profile-panel" id="profile" aria-labelledby="profile-heading">
-        <div class="section-kicker">Profile Setup</div>
-        <h2 id="profile-heading">Set the signals that shape your monthly match.</h2>
+    <section class="product-board" id="setup">
+      <aside class="card setup-card" aria-labelledby="setup-heading">
+        <p class="eyebrow">Profile setup</p>
+        <h2 id="setup-heading">Small setup, better conversations.</h2>
         <form class="profile-form">
           <label>
             Preferred language
@@ -85,31 +83,35 @@
             <div class="tag-picker" aria-label="Interest tags">
               <button type="button" class="tag selected">Culture</button>
               <button type="button" class="tag selected">UX Research</button>
-              <button type="button" class="tag">Startups</button>
-              <button type="button" class="tag">Food</button>
-              <button type="button" class="tag selected">Lifestyle</button>
-              <button type="button" class="tag">Art</button>
+              <button type="button" class="tag">Founders</button>
+              <button type="button" class="tag selected">Food rituals</button>
+              <button type="button" class="tag">Cities</button>
             </div>
           </label>
           <label>
-            Fun bio
-            <textarea rows="4">I enjoy learning how people work, eat, build communities, and make decisions in different parts of the world.</textarea>
+            Conversation starter
+            <textarea rows="3">Ask me how daily meals, work habits, and local communities shape product decisions.</textarea>
           </label>
           <button class="button primary full" type="button">Save profile</button>
         </form>
       </aside>
 
-      <section class="match-stage" id="match" aria-labelledby="match-heading">
-        <div class="section-kicker">September Match</div>
+      <section class="card reveal-zone" id="match" aria-labelledby="match-heading">
+        <div class="match-topline">
+          <p class="eyebrow">September match</p>
+          <span class="mail-pill">Email ready</span>
+        </div>
         <div class="reveal-card">
-          <div class="season-badge" aria-hidden="true">
+          <div class="plate-orbit" aria-hidden="true">
             <span></span>
             <span></span>
             <span></span>
           </div>
-          <h2 id="match-heading">Your September match is ready.</h2>
-          <p>The introduction is designed for a single learning conversation about culture, work, and lifestyle. Partner details are sent by secure email.</p>
-          <button class="button primary reveal-button" type="button" aria-expanded="false">Reveal Match</button>
+          <div>
+            <h2 id="match-heading">Your monthly match is behind the plate.</h2>
+            <p>Reveal partner details only when you are ready. The system keeps the rhythm simple: one secure introduction, one month at a time.</p>
+          </div>
+          <button class="button coral reveal-button" type="button" aria-expanded="false">Reveal Match</button>
         </div>
 
         <article class="match-card hidden" aria-live="polite">
@@ -121,85 +123,50 @@
             </div>
           </div>
           <dl class="match-details">
-            <div>
-              <dt>LinkedIn</dt>
-              <dd>linkedin.com/in/aaravrao</dd>
-            </div>
-            <div>
-              <dt>Language</dt>
-              <dd>English, Hindi</dd>
-            </div>
-            <div>
-              <dt>Interests</dt>
-              <dd>Climate tech, city food cultures, product strategy</dd>
-            </div>
+            <div><dt>LinkedIn</dt><dd>linkedin.com/in/aaravrao</dd></div>
+            <div><dt>Language</dt><dd>English, Hindi</dd></div>
+            <div><dt>Ask about</dt><dd>Climate tech, street food, product strategy</dd></div>
           </dl>
           <div class="match-actions">
-            <button class="button secondary" type="button">Already connected</button>
-            <button class="button ghost" type="button">Take a break next month</button>
+            <button class="button quiet" type="button">Already connected</button>
+            <button class="button ghost" type="button">Skip next month</button>
           </div>
         </article>
       </section>
     </section>
 
-    <section class="detail-grid">
-      <article class="panel" id="connects">
-        <div class="section-kicker">All Connects</div>
-        <h2>Past matches stay useful.</h2>
+    <section class="bottom-grid" id="controls">
+      <article class="card connects-card">
+        <p class="eyebrow">All Connects</p>
+        <h2>Keep the network light, not lost.</h2>
         <div class="connect-list">
           <div class="connect-row">
-            <div>
-              <strong>Maya Tan</strong>
-              <span>Singapore - design operations</span>
-            </div>
+            <div><strong>Maya Tan</strong><span>Singapore - design operations</span></div>
             <button type="button">Connect Again</button>
           </div>
           <div class="connect-row">
-            <div>
-              <strong>Jonas Miller</strong>
-              <span>Berlin - community activism</span>
-            </div>
+            <div><strong>Jonas Miller</strong><span>Berlin - community activism</span></div>
             <button type="button">Connect Again</button>
           </div>
           <div class="connect-row">
-            <div>
-              <strong>Sofia Alvarez</strong>
-              <span>Mexico City - founder stories</span>
-            </div>
+            <div><strong>Sofia Alvarez</strong><span>Mexico City - founder stories</span></div>
             <button type="button">Report Mis-Event</button>
           </div>
         </div>
       </article>
 
-      <article class="panel" id="settings">
-        <div class="section-kicker">Settings</div>
-        <h2>Keep the rhythm simple.</h2>
+      <article class="card settings-card">
+        <p class="eyebrow">Settings</p>
+        <h2>Respect availability.</h2>
         <div class="setting-row">
-          <div>
-            <strong>Email frequency</strong>
-            <span>Fixed at one monthly introduction.</span>
-          </div>
-          <span class="pill">1/month</span>
+          <div><strong>Email frequency</strong><span>Fixed at one monthly introduction.</span></div>
+          <span class="frequency-pill">1/month</span>
         </div>
         <label class="switch-row">
-          <span>
-            <strong>Take a break</strong>
-            <small>Skip next month's match without leaving.</small>
-          </span>
+          <span><strong>Take a break</strong><small>Pause the next reveal without leaving.</small></span>
           <input type="checkbox">
         </label>
-        <button class="danger-button" type="button">Leave program</button>
-      </article>
-
-      <article class="panel metrics-panel">
-        <div class="section-kicker">MVP Metrics</div>
-        <h2>Measure signal, not noise.</h2>
-        <div class="metric-grid">
-          <div><strong>Sign-ups</strong><span>12.8k</span></div>
-          <div><strong>Reveal CTR</strong><span>68%</span></div>
-          <div><strong>Confirmed connects</strong><span>41%</span></div>
-          <div><strong>Opt-out rate</strong><span>2.4%</span></div>
-        </div>
+        <button class="leave-button" type="button">Leave program</button>
       </article>
     </section>
   </main>
