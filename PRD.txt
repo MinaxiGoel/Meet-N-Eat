@@ -1,0 +1,157 @@
+Here’s your **detailed PRD rewritten for Codex to build the *Meet & Eat* website** — structured in a way that you can drop directly into a Word document. I’ll keep it clean, hierarchical, and developer‑ready.
+
+---
+
+# 📄 Product Requirements Document (PRD)  
+**Product Name:** Meet & Eat  
+**Tagline:** *Connect & Learn from Someone New — Every Month.*
+
+---
+
+## 1. 🎯 Vision
+Meet & Eat is a global networking platform that connects people randomly once a month to learn about each other’s **culture, work, and lifestyle**. It’s not about making friends or small talk — it’s about **sharing perspectives** and **breaking formal barriers** through authentic conversations.
+
+---
+
+## 2. 💡 Purpose
+To help users **expand their network**, **share experiences**, and **learn from diverse individuals** worldwide — without the cognitive load of choosing who to connect with.
+
+---
+
+## 3. 👥 Target Audience
+- Open to everyone: students, founders, HR professionals, activists, artists, etc.  
+- Random pairing ensures diversity and surprise.  
+- No moderators — the system fosters organic, respectful communication.
+
+---
+
+## 4. 🔑 Differentiation
+- **Random monthly pairing** removes bias and effort in choosing connections.  
+- **Intentional networking:** both users know they’re connecting to learn — no ghosting or cold calls.  
+- **Surprise reveal:** seasonal themes make the experience playful and engaging.  
+- **Email‑driven model:** one secure email per month with partner details and opt‑out options.
+
+---
+
+## 5. 🖥️ Platform Scope
+- **Website (m‑site + desktop)** — responsive design.  
+- **No mobile app login required** — users register once via LinkedIn.  
+- **All communication via email** — website acts as onboarding and summary hub.
+
+---
+
+## 6. 📧 Communication Policy
+- **One email per month only.**  
+- Email includes:  
+  - Partner’s name, LinkedIn profile, preferred language, and interests.  
+  - Option to opt out for next month or permanently.  
+  - Secure, phishing‑free link to connect.  
+
+---
+
+## 7. 🧭 User Flow (Website)
+| Step | Description |
+|------|--------------|
+| **LinkedIn Sign‑In** | OAuth login via LinkedIn only. |
+| **Profile Setup** | Ask for preferred language, interests (tags), and fun bio. |
+| **Monthly Match Reveal** | “Your [Month] Match is Ready!” with seasonal animation and reveal button. |
+| **Match Info** | Show partner’s name, LinkedIn, languages, and “Have you already connected?” prompt. |
+| **Home Screen** | Default view showing monthly match reveal; bottom tray navigation: Settings | Monthly Match | All Connects. |
+| **All Connects** | List of past matches with “Connect Again?” and “Report Mis‑Event.” |
+| **Settings** | Manage email frequency (fixed at 1/month), take a break, or leave program. |
+
+---
+
+## 8. 🎨 Design Guidelines
+- **Style:** Minimalist, warm, globally inclusive.  
+- **Tone:** Friendly, fun, trustworthy, playful + professional.  
+- **Color Palette:** Soft blues and coral accents.  
+- **Logo:** Globe + plate motif (symbolizing connection over conversation).  
+- **Typography:** Sans‑serif, clean and accessible.  
+- **Animations:** Lightweight seasonal GIFs (e.g., sunset, autumn leaves).  
+- **Layout:** Mobile‑first responsive grid.  
+
+---
+
+## 9. 🔒 Security & Compliance
+- LinkedIn OAuth only (no other login).  
+- Encrypted storage for LinkedIn email ID, password, and personal email ID (with consent).  
+- GDPR‑compliant, phishing‑free communication.  
+- Secure opt‑out links in every email.  
+- Scalable for millions of users.
+
+---
+
+## 10. ⚙️ Technical Requirements
+| Component | Technology |
+|------------|-------------|
+| **Frontend** | React.js / Next.js (responsive web design) |
+| **Backend** | Node.js / Express |
+| **Database** | PostgreSQL (encrypted fields) |
+| **Authentication** | LinkedIn OAuth |
+| **Email Service** | SendGrid / AWS SES |
+| **Hosting** | Azure / AWS |
+| **Security** | HTTPS, SSL, OAuth 2.0, encrypted tokens |
+
+---
+
+## 11. 📊 Metrics (First Month)
+Track only for analysis:  
+- Number of sign‑ups.  
+- Email open rate.  
+- Match reveal click‑through rate.  
+- Connection confirmations.  
+- Opt‑out rate.
+
+---
+
+## 12. 🗓️ Roadmap
+| Phase | Deliverables |
+|--------|---------------|
+| **Phase 1** | Website MVP — LinkedIn sign‑in, profile setup, monthly match reveal, email integration. |
+| **Phase 2** | Add “All Connects” and “Settings” pages. |
+| **Phase 3** | Seasonal animations and responsive design polish. |
+| **Phase 4** | Security audit and global rollout. |
+
+---
+
+## 13. 📂 Folder Structure (for Codex)
+```
+/meet-and-eat
+│
+├── /frontend
+│   ├── index.html
+│   ├── styles.css
+│   ├── components/
+│   ├── pages/
+│
+├── /backend
+│   ├── server.js
+│   ├── routes/
+│   ├── controllers/
+│   ├── models/
+│
+├── /assets
+│   ├── logo.svg
+│   ├── gifs/
+│
+├── /config
+│   ├── db.js
+│   ├── oauth.js
+│
+└── README.md
+```
+
+---
+
+## 14. 🧩 Future Enhancements
+- Multi‑language UI.  
+- AI‑based pairing suggestions (based on interests).  
+- Analytics dashboard for engagement insights.  
+- Optional “Meet & Eat Stories” section for shared experiences.
+
+---
+
+✨ This PRD is **ready to drop into a Word document** — it’s structured with headings, tables, and lists so Codex can directly use it for development.  
+
+Would you like me to **format this into a Word‑style export (with cover page, table of contents, and numbered sections)** so it looks polished for handoff?
