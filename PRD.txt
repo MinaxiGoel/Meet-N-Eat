@@ -1,157 +1,144 @@
-Here’s your **detailed PRD rewritten for Codex to build the *Meet & Eat* website** — structured in a way that you can drop directly into a Word document. I’ll keep it clean, hierarchical, and developer‑ready.
+MEET & EAT — PRODUCT REQUIREMENTS DOCUMENT
+Version: 1.0
+Updated: 2 October 2026
 
----
+1. PRODUCT SUMMARY
 
-# 📄 Product Requirements Document (PRD)  
-**Product Name:** Meet & Eat  
-**Tagline:** *Connect & Learn from Someone New — Every Month.*
+Meet & Eat is a lightweight monthly introduction service. Members create a profile using LinkedIn sign-in, get paired with one new person from the same self-identified gender group, and receive a match email on the first day of the month in which the match is ready. They use LinkedIn to connect and arrange a 30-minute conversation, with an ice-breaker supplied by the service. A member may adjust matching frequency, pause, or opt out.
 
----
+The public website is a concise landing page. It explains the service, shows the first screen and a short “How it works” section, and offers LinkedIn sign-up. Profile questions, matching preferences, and match information are available only after authentication.
 
-## 1. 🎯 Vision
-Meet & Eat is a global networking platform that connects people randomly once a month to learn about each other’s **culture, work, and lifestyle**. It’s not about making friends or small talk — it’s about **sharing perspectives** and **breaking formal barriers** through authentic conversations.
+2. PRODUCT GOALS
 
----
+- Make it easy to meet someone outside a member’s existing professional and social circles.
+- Keep registration short and collect only details needed for matching and communication.
+- Make monthly participation understandable, predictable, and easy to pause.
+- Provide a responsive, warm, lightweight interface across phones, tablets, and desktops.
+- Never reveal a match publicly or before the signed-in member chooses to reveal it.
+- Never pair the same two members more than once.
 
-## 2. 💡 Purpose
-To help users **expand their network**, **share experiences**, and **learn from diverse individuals** worldwide — without the cognitive load of choosing who to connect with.
+3. USERS AND CORE JOURNEYS
 
----
+3.1 Visitor
 
-## 3. 👥 Target Audience
-- Open to everyone: students, founders, HR professionals, activists, artists, etc.  
-- Random pairing ensures diversity and surprise.  
-- No moderators — the system fosters organic, respectful communication.
+The visitor sees the brand, a first-fold introduction, a “Sign up with LinkedIn” call to action, and a “How it works” explanation. The optional visual teaser may say “Your monthly match is behind the plate” and its action must also be “Sign up with LinkedIn.” The landing page has no match preview, reveal feature, or profile/preference form.
 
----
+3.2 First-time member
 
-## 4. 🔑 Differentiation
-- **Random monthly pairing** removes bias and effort in choosing connections.  
-- **Intentional networking:** both users know they’re connecting to learn — no ghosting or cold calls.  
-- **Surprise reveal:** seasonal themes make the experience playful and engaging.  
-- **Email‑driven model:** one secure email per month with partner details and opt‑out options.
+1. Select “Sign up with LinkedIn” and authenticate with LinkedIn OpenID Connect.
+2. Complete a post-sign-in profile with first name, last name, one of the four gender identities, a preferred email for match information, and one or more interests. A LinkedIn profile URL may be added so a match can connect directly.
+3. Save the profile. The dashboard confirms that the member is on the list, names the exact upcoming month, and states the email date as the first of that month.
+4. In the matching month, open the dashboard, select “Reveal this month’s match,” review the match, and use the LinkedIn link (when available) to connect and arrange a 30-minute conversation.
 
----
+3.3 Returning member
 
-## 5. 🖥️ Platform Scope
-- **Website (m‑site + desktop)** — responsive design.  
-- **No mobile app login required** — users register once via LinkedIn.  
-- **All communication via email** — website acts as onboarding and summary hub.
+After LinkedIn sign-in, show a three-column dashboard: past matches on the left, match reveal in the middle, and settings on the right. The central panel explains the next eligible month and exact email date if no current match is available. When there is a match, member details remain hidden until reveal. A logout action is available in the dashboard header and settings panel.
 
----
+4. PROFILE DATA AND PRIVACY
 
-## 6. 📧 Communication Policy
-- **One email per month only.**  
-- Email includes:  
-  - Partner’s name, LinkedIn profile, preferred language, and interests.  
-  - Option to opt out for next month or permanently.  
-  - Secure, phishing‑free link to connect.  
+Required member details:
+- First name.
+- Last name.
+- Gender identity, selected from Man, Woman, Non-binary, or Prefer not to say.
+- Preferred email address for match information.
+- At least one interest (examples: movies, music, reading, cooking, travelling, art and design, technology, nature, sports, food, culture, entrepreneurship).
 
----
+Optional detail:
+- LinkedIn profile URL, validated as a linkedin.com address.
 
-## 7. 🧭 User Flow (Website)
-| Step | Description |
-|------|--------------|
-| **LinkedIn Sign‑In** | OAuth login via LinkedIn only. |
-| **Profile Setup** | Ask for preferred language, interests (tags), and fun bio. |
-| **Monthly Match Reveal** | “Your [Month] Match is Ready!” with seasonal animation and reveal button. |
-| **Match Info** | Show partner’s name, LinkedIn, languages, and “Have you already connected?” prompt. |
-| **Home Screen** | Default view showing monthly match reveal; bottom tray navigation: Settings | Monthly Match | All Connects. |
-| **All Connects** | List of past matches with “Connect Again?” and “Report Mis‑Event.” |
-| **Settings** | Manage email frequency (fixed at 1/month), take a break, or leave program. |
+The LinkedIn account email is not used as the preferred delivery address unless the member chooses that address in the profile. Match email consent is collected as part of completing the profile and can be switched off in settings. LinkedIn credentials and access tokens are not stored. Match details are available only to the two members in that match and are not displayed on the public landing page.
 
----
+5. MATCHING AND CADENCE REQUIREMENTS
 
-## 8. 🎨 Design Guidelines
-- **Style:** Minimalist, warm, globally inclusive.  
-- **Tone:** Friendly, fun, trustworthy, playful + professional.  
-- **Color Palette:** Soft blues and coral accents.  
-- **Logo:** Globe + plate motif (symbolizing connection over conversation).  
-- **Typography:** Sans‑serif, clean and accessible.  
-- **Animations:** Lightweight seasonal GIFs (e.g., sunset, autumn leaves).  
-- **Layout:** Mobile‑first responsive grid.  
+- The four gender groups are the four exact profile choices. A pair must have the same gender identity value.
+- Members can select monthly, every two months, every three months, or pause matching.
+- A member may receive at most one match per calendar month.
+- A member must not receive the same partner again. The pairing service must only create an edge between two members if the pair has never appeared in match history, regardless of period.
+- Pairing runs on the first day of each month. New members who complete registration during a month are queued for the next matching period.
+- Eligibility respects each member’s cadence from their latest match. Paused, opted-out, incomplete, or invalid-group profiles are excluded.
+- The pairing algorithm seeks the largest feasible set of unique, never-repeated pairs within each group. It must not fall back to a repeat pair.
+- An odd number of eligible members necessarily leaves at least one person waiting. Even-sized groups may also have waiting members if every possible partner was already matched in prior periods. These are mathematical constraints; report the number waiting by group in job logs and try again at a later eligible period.
+- Historical match records are retained to enforce the no-repeat rule and to populate past matches.
 
----
+6. MONTHLY MATCH AND EMAIL BEHAVIOR
 
-## 9. 🔒 Security & Compliance
-- LinkedIn OAuth only (no other login).  
-- Encrypted storage for LinkedIn email ID, password, and personal email ID (with consent).  
-- GDPR‑compliant, phishing‑free communication.  
-- Secure opt‑out links in every email.  
-- Scalable for millions of users.
+- The dashboard calculates the next eligible period and displays its full month and year, plus “email on the 1st of [Month Year].”
+- The email job sends one message to the member’s preferred email for each newly created match, provided email reminders are enabled.
+- Email includes a signed-in site link to the dashboard, the match month, a 30-minute conversation suggestion, and one ice-breaker. It does not disclose the partner in email.
+- Email delivery is idempotent per member and match. A successful email is not sent twice if a monthly job is retried.
+- Settings allow changing cadence and disabling email reminders. Pausing suppresses new pairings; prior match history remains available.
 
----
+7. DASHBOARD REQUIREMENTS
 
-## 10. ⚙️ Technical Requirements
-| Component | Technology |
-|------------|-------------|
-| **Frontend** | React.js / Next.js (responsive web design) |
-| **Backend** | Node.js / Express |
-| **Database** | PostgreSQL (encrypted fields) |
-| **Authentication** | LinkedIn OAuth |
-| **Email Service** | SendGrid / AWS SES |
-| **Hosting** | Azure / AWS |
-| **Security** | HTTPS, SSL, OAuth 2.0, encrypted tokens |
+Past matches (left):
+- List prior partners and match months, newest first.
+- Include a LinkedIn link when the partner has supplied one.
+- Show an empty state before the first match.
 
----
+Reveal your match (middle):
+- Incomplete profile: show profile completion fields after authentication.
+- Waiting for a future period: state that the member is on the list, show the exact month, and state the email date.
+- Paused: clearly say matching is paused and direct the member to settings.
+- Current match: show a reveal action first. After reveal, show partner name, interests, LinkedIn link when present, and a conversation ice-breaker.
 
-## 11. 📊 Metrics (First Month)
-Track only for analysis:  
-- Number of sign‑ups.  
-- Email open rate.  
-- Match reveal click‑through rate.  
-- Connection confirmations.  
-- Opt‑out rate.
+Settings (right):
+- Matching cadence: monthly, every two months, every three months, or paused.
+- Email reminder toggle.
+- Logout action.
 
----
+8. DESIGN AND ACCESSIBILITY
 
-## 12. 🗓️ Roadmap
-| Phase | Deliverables |
-|--------|---------------|
-| **Phase 1** | Website MVP — LinkedIn sign‑in, profile setup, monthly match reveal, email integration. |
-| **Phase 2** | Add “All Connects” and “Settings” pages. |
-| **Phase 3** | Seasonal animations and responsive design polish. |
-| **Phase 4** | Security audit and global rollout. |
+- Use a light, warm visual system with a plate/table motif and restrained motion.
+- The landing hero may reference the current month where relevant; date labels must be generated from the actual calendar date, not hard-coded to October.
+- Use motion for small ambient decoration only. Respect prefers-reduced-motion.
+- At narrow widths, stack dashboard areas vertically, placing reveal first, settings next, and history after; keep all controls touch-friendly.
+- Use semantic headings, form labels, focus states, accessible button labels, and sufficient contrast.
+- Loading, empty, error, and success states should be clear and usable.
 
----
+9. TECHNICAL ARCHITECTURE
 
-## 13. 📂 Folder Structure (for Codex)
-```
-/meet-and-eat
-│
-├── /frontend
-│   ├── index.html
-│   ├── styles.css
-│   ├── components/
-│   ├── pages/
-│
-├── /backend
-│   ├── server.js
-│   ├── routes/
-│   ├── controllers/
-│   ├── models/
-│
-├── /assets
-│   ├── logo.svg
-│   ├── gifs/
-│
-├── /config
-│   ├── db.js
-│   ├── oauth.js
-│
-└── README.md
-```
+Frontend: Next.js and React, deployed on Vercel. Public landing content is statically rendered. Authenticated profile, match, and settings data are fetched after sign-in.
 
----
+Backend: Node.js and Express, deployed on Railway. Passport.js handles LinkedIn OpenID Connect. The API uses signed server-side sessions stored in PostgreSQL. LinkedIn ID tokens are signature- and claim-verified.
 
-## 14. 🧩 Future Enhancements
-- Multi‑language UI.  
-- AI‑based pairing suggestions (based on interests).  
-- Analytics dashboard for engagement insights.  
-- Optional “Meet & Eat Stories” section for shared experiences.
+Database: PostgreSQL on Railway. Store member profiles, match history, feedback, sessions, and email delivery status. Pair insertion and monthly job execution use a PostgreSQL advisory lock to prevent concurrent pairing runs.
 
----
+Email: Resend transactional API invoked by a Railway monthly cron job. The cron task creates eligible matches, then sends opt-in emails.
 
-✨ This PRD is **ready to drop into a Word document** — it’s structured with headings, tables, and lists so Codex can directly use it for development.  
+Hosting flow: Vercel rewrites `/api/*` requests to the Railway Express API so the browser session cookie remains scoped to the Vercel origin. Configure LinkedIn callback URL to the Vercel API route.
 
-Would you like me to **format this into a Word‑style export (with cover page, table of contents, and numbered sections)** so it looks polished for handoff?
+10. API CAPABILITIES
+
+- GET /auth/status — LinkedIn configuration status.
+- GET /auth/session — current signed-in member summary.
+- GET /auth/linkedin and GET /auth/linkedin/callback — LinkedIn OIDC flow.
+- POST /auth/logout — end the session.
+- GET /profile and PUT /profile — read/save profile.
+- GET /matches/current — current match and next eligible period/email date.
+- GET /matches — match history.
+- POST /matches/:matchId/feedback — record connection or report feedback.
+- PATCH /settings — update frequency and email preference.
+- POST /settings/leave — opt out and end the session.
+
+11. OPERATIONS AND DEPLOYMENT
+
+Required service configuration includes Railway PostgreSQL, session secret, LinkedIn client ID/secret and callback URL, Vercel frontend origin, Resend API key/from address, and the Vercel API rewrite origin. Keep credentials in the hosting providers’ environment settings; never expose secrets in public frontend variables.
+
+Run the Railway cron on the first day of each month after database initialization. Monitor service health and job logs, including per-group unmatched counts and email failures. The API exposes `/health` for health checks.
+
+12. OUT OF SCOPE FOR THIS RELEASE
+
+- In-app chat, calendar booking, or automatic scheduling.
+- Public member directory or public match reveal.
+- Geographic, company, seniority, or interest-based pairing constraints.
+- Automatic LinkedIn connection requests or posting on a member’s behalf.
+- Guaranteeing every person is paired when group sizes are odd or fresh pair edges are exhausted.
+
+13. SUCCESS MEASURES
+
+- Profile completion rate after LinkedIn sign-in.
+- Eligible-member pairing rate per period, split by gender group.
+- Percentage of matches that are unique across the full history.
+- Match-email delivery success rate.
+- Member-reported connection rate and return participation.
+- Mobile usability and error rates across sign-in, profile save, reveal, and settings.

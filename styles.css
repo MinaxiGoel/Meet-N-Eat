@@ -29,7 +29,7 @@ body {
     var(--paper);
   background-size: 42px 42px;
   color: var(--ink);
-  font: 15px/1.45 Inter, Segoe UI, sans-serif;
+  font: 14px/1.42 Manrope, Segoe UI, sans-serif;
 }
 
 button,
@@ -55,8 +55,8 @@ main {
 }
 
 .hero {
-  min-height: 88vh;
-  padding: 16px 0 18px;
+  min-height: 68vh;
+  padding: 12px 0 10px;
 }
 
 .topbar {
@@ -81,6 +81,13 @@ main {
   gap: 10px;
   font-size: 1.02rem;
   text-decoration: none;
+}
+
+.brand strong,
+h1,
+h2,
+h3 {
+  font-family: Fredoka, Manrope, sans-serif;
 }
 
 .brand-mark {
@@ -148,7 +155,7 @@ main {
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: calc(88vh - 68px);
+  min-height: calc(68vh - 62px);
   border: 1px solid var(--line);
   border-radius: 8px;
   overflow: hidden;
@@ -160,7 +167,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(24px, 4.2vw, 56px);
+  padding: clamp(22px, 3.6vw, 46px);
 }
 
 .eyebrow {
@@ -182,8 +189,8 @@ p {
 h1 {
   max-width: 620px;
   margin-bottom: 16px;
-  font-size: clamp(2.45rem, 4.9vw, 5rem);
-  line-height: .96;
+  font-size: clamp(2.35rem, 4.3vw, 4.35rem);
+  line-height: .98;
   letter-spacing: 0;
 }
 
@@ -209,7 +216,7 @@ h3 {
 .hero-actions {
   flex-wrap: wrap;
   gap: 10px;
-  margin: 24px 0 18px;
+  margin: 20px 0 15px;
 }
 
 .button {
@@ -285,7 +292,7 @@ h3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
-  padding: 12px 0;
+  padding: 10px 0;
 }
 
 .compact-flow article,
@@ -301,8 +308,20 @@ h3 {
   grid-template-columns: auto 1fr;
   column-gap: 12px;
   align-items: start;
-  min-height: 112px;
-  padding: 16px;
+  min-height: 126px;
+  padding: 15px;
+}
+
+.compact-flow article:nth-child(1) {
+  border-top: 4px solid var(--blue);
+}
+
+.compact-flow article:nth-child(2) {
+  border-top: 4px solid var(--coral);
+}
+
+.compact-flow article:nth-child(3) {
+  border-top: 4px solid var(--sun);
 }
 
 .compact-flow span {
@@ -332,16 +351,16 @@ h3 {
   display: grid;
   grid-template-columns: minmax(280px, .74fr) minmax(0, 1.26fr);
   gap: 14px;
-  padding: 8px 0 12px;
+  padding: 6px 0 10px;
 }
 
 .card {
-  padding: clamp(18px, 2.4vw, 28px);
+  padding: clamp(16px, 2vw, 23px);
 }
 
 .profile-form {
   display: grid;
-  gap: 14px;
+  gap: 11px;
 }
 
 label {
@@ -415,8 +434,8 @@ textarea {
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 18px;
-  min-height: 184px;
-  padding: 22px;
+  min-height: 168px;
+  padding: 18px;
   border: 1px solid #cde1e7;
   border-radius: 8px;
   background: linear-gradient(135deg, #ffffff 0%, #eaf7f8 100%);
@@ -523,7 +542,7 @@ textarea {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  padding: 12px 0;
+  padding: 10px 0;
   border-top: 1px solid var(--line);
 }
 
@@ -549,7 +568,7 @@ dd {
   display: grid;
   grid-template-columns: 1.12fr .88fr;
   gap: 14px;
-  padding: 8px 0 28px;
+  padding: 6px 0 20px;
 }
 
 .connect-list {
@@ -588,6 +607,30 @@ dd {
   margin-top: 12px;
   background: #fff2ef;
   color: var(--coral-dark);
+}
+
+.button,
+.tag,
+.connect-row button,
+.leave-button,
+.nav-links a {
+  transition: transform .16s ease, box-shadow .16s ease, background-color .16s ease;
+}
+
+.button:hover,
+.connect-row button:hover,
+.leave-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 7px 16px rgba(23, 37, 46, .12);
+}
+
+a:focus-visible,
+button:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--sun);
+  outline-offset: 3px;
 }
 
 @media (max-width: 900px) {

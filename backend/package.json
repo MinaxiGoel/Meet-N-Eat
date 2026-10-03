@@ -1,0 +1,26 @@
+{
+  "name": "meet-and-eat-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "pair:monthly": "node src/jobs/create-monthly-matches.js",
+    "notify:matches": "node src/jobs/notify-match-ready.js",
+    "monthly:run": "npm run pair:monthly && npm run notify:matches"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "connect-pg-simple": "^10.0.0",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "jose": "^6.1.0",
+    "passport": "^0.7.0",
+    "passport-openidconnect": "^0.1.2",
+    "pg": "^8.16.3"
+  }
+}

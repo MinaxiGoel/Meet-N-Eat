@@ -12,6 +12,7 @@ if (revealButton && matchCard) {
 
 tags.forEach((tag) => {
   tag.addEventListener("click", () => {
-    tag.classList.toggle("selected");
+    const isSelected = tag.classList.toggle("selected");
+    tag.setAttribute("aria-pressed", String(isSelected));
   });
 });
