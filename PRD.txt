@@ -1,5 +1,5 @@
 MEET-N-EAT — PRODUCT REQUIREMENTS DOCUMENT
-Version: 2.3 (decisions confirmed, ready to build)
+Version: 2.4 (decisions confirmed, ready to build)
 Updated: 15 November 2026
 Owner: Minaxi Goel
 Replaces: v1.0 (2 October 2026). Section 22 lists what changed and what it means for the current code.
@@ -495,7 +495,14 @@ which means more than about 1,900 members on free Gmail.
 - Joined before round 1. Later sign-ups join next month.
 
 14.3 Pairing rules
-- Same gender option only.
+- Same gender only, strictly. Two members can be paired only if they
+  chose exactly the same gender option. There is no cross-gender pairing,
+  ever, including as a fallback when someone would otherwise sit out.
+  The pairing job only looks inside one gender group at a time, and the
+  database double-checks it: a match between two different gender
+  options is rejected.
+- If a member changes their gender in Edit profile, it applies from the
+  next pairing round; a match already made stays.
 - At most one match per member per month.
 - Never pair the same two people again, ever.
 - Find the largest possible set of new pairs in each gender group. Never
@@ -561,9 +568,11 @@ Subject: Are you in for {Month}? 🍽️
 
   New month, new face to meet! We're plating up your {Month} match. 🍳
 
-  Staying in? No action needed. Do nothing and you're in. Your match's
-  details will land in this inbox later this month (or peek on the site
-  from the 8th 👀).
+  Staying in? No action needed. Do nothing and you're in.
+
+  Based on your responses, we'll start pairing everyone up soon, so
+  expect your partner's details in your inbox next week. (Curious? You
+  can peek on the site from the 8th 👀)
 
   Need some time out? Just pick one:
 
@@ -899,7 +908,8 @@ Defaults taken by Claude (change any of these anytime)
     in line" note as their second email.
 14. The match card shows LinkedIn only, not email.
 15. Gender options: Woman / Man / Non-binary / Prefer not to say; each
-    is its own pairing group.
+    is its own pairing group. Same-gender pairing only, no cross-gender
+    matches (confirmed by Minaxi).
 16. "Any fun, cool things about you?" is required.
 17. Phone bottom menu: Past Connects · Reveal Match · Settings.
 18. Monthly vibe decorations come in Phase 2.
