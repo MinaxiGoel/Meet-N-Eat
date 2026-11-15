@@ -1,5 +1,5 @@
 MEET-N-EAT — PRODUCT REQUIREMENTS DOCUMENT
-Version: 2.2 (decisions confirmed, ready to build)
+Version: 2.3 (decisions confirmed, ready to build)
 Updated: 15 November 2026
 Owner: Minaxi Goel
 Replaces: v1.0 (2 October 2026). Section 22 lists what changed and what it means for the current code.
@@ -183,8 +183,8 @@ small phone snapshot of the matching screen.
 
 5.4 "Two emails a month. No spam."
 A small block under the steps:
-- From the 3rd: "Are you in this month?" Stay in, take a break, pause,
-  or opt out in one tap.
+- From the 3rd: a check-in. Do nothing to stay in, or take a break,
+  pause or opt out in one tap.
 - From the 10th: your match's details.
 
 5.5 Not on the landing page
@@ -410,8 +410,10 @@ No hobby or preference questions on this page.
 Heading: "We respect your availability."
 Current status shown at the top (for example "You're in for December").
 
-Options (pick one, then confirm). These are the same four choices as the
-buttons in the check-in email; whichever was chosen last counts.
+Options (pick one, then confirm). Options 2–4 are also the three buttons
+in the check-in email; whichever was chosen last counts. Stay in has no
+email button because doing nothing means Stay in; members who change their
+mind after choosing a break or pause switch back here.
  1. Stay in (default): "Keep matching me every month." Doing nothing
     after the check-in email also means Stay in.
  2. Take a break this month: "Skip this month. I'll be back next month."
@@ -557,17 +559,17 @@ Subject: Are you in for {Month}? 🍽️
 
   Hi {First name} 👋
 
-  New month, new face to meet! Before we plate up your {Month} match,
-  a quick check: are you in?
+  New month, new face to meet! We're plating up your {Month} match. 🍳
 
-  [ ✅ Yes, I'm in ]
+  Staying in? No action needed. Do nothing and you're in. Your match's
+  details will land in this inbox later this month (or peek on the site
+  from the 8th 👀).
+
+  Need some time out? Just pick one:
+
   [ ☕ Take a break this month ]
   [ ⏸️ Pause until I'm back ]
   [ 👋 Opt out ]
-
-  Happy to keep going? You don't even need to click. Do nothing and
-  you're in. Your match's details will land in this inbox later this
-  month (or peek on the site from the 8th 👀).
 
   Each button opens a page where one tap confirms it. No login needed,
   and you can change your mind anytime in Settings.
@@ -876,9 +878,9 @@ Confirmed by Minaxi (15 Nov 2026)
  2. Two emails a month at most. Email 1 from the 3rd (3rd–9th), Email 2
     from the 10th (10th–15th and later if needed), within the daily limit,
     rolling over to the next day.
- 3. Email 1 is a check-in: stay in, take a break this month, pause until
-    I'm back, or opt out, with one tap from the email. Doing nothing means
-    stay in.
+ 3. Email 1 is a check-in with three buttons: take a break this month,
+    pause until I'm back, or opt out. No "Yes, I'm in" button: doing
+    nothing means you're in, and the email says so.
  4. Email 1 goes to everyone except opted-out members. Email 2 goes only
     to members who are in that month.
  5. The 8th is only for members who want to reveal on the site early.
