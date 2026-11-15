@@ -1,11 +1,14 @@
 MEET-N-EAT — PRODUCT REQUIREMENTS DOCUMENT
-Version: 2.1 (decisions confirmed, ready to build)
+Version: 2.2 (decisions confirmed, ready to build)
 Updated: 15 November 2026
 Owner: Minaxi Goel
 Replaces: v1.0 (2 October 2026). Section 22 lists what changed and what it means for the current code.
 v2.1: decisions from Minaxi recorded (section 24); email schedule with daily
 sending limit (14.1, 15.1); role/company/LinkedIn URL moved into sign-up;
 Vercel + Neon only (no Railway).
+v2.2: LinkedIn sign-in only (no passwords); Email 1 becomes a monthly
+check-in with one-tap choices; Email 2 only for members continuing that
+month; two pairing rounds; 18+ self-declared; external scheduler.
 
 ------------------------------------------------------------------------
 CONTENTS
@@ -16,7 +19,7 @@ CONTENTS
  4. Site map
  5. Landing page
  6. Register (sign-up)
- 7. LinkedIn verification and profile data
+ 7. LinkedIn sign-in and profile data
  8. Log in and account access
  9. Member app — layout and navigation
 10. Reveal Match
@@ -32,8 +35,8 @@ CONTENTS
 20. Success measures
 21. Release phases
 22. Changes from v1.0 and impact on current code
-23. Feasibility notes (LinkedIn email check, job/company, photo, Gmail)
-24. Open questions for Minaxi
+23. Feasibility notes (LinkedIn, Gmail, one-tap email links, age)
+24. Decisions log
 25. Action items
 
 
@@ -42,17 +45,22 @@ CONTENTS
 ------------------------------------------------------------------------
 
 Meet-N-Eat introduces people across the globe to one new person every
-month. A member registers, verifies with LinkedIn, and is paired with
-someone of the same gender. On the 8th of each month the match can be
-revealed in the portal (a plate flips over to show who it is), and from the
-10th the match's details arrive by email. The two members DM each other on
-LinkedIn and set up a relaxed 30-minute call on whatever tool suits them
-both (Google Meet, Teams, Zoom). Grab a coffee and a snack and get to know
-each other.
+month. A member joins with one tap using LinkedIn (no separate password),
+adds a few details, and is paired with someone of the same gender.
 
-Members get exactly two emails a month: a heads-up sent from the 3rd and
-the match details sent from the 10th (spread over the following days if the
-daily sending limit is reached; see 14.1). They can take a break, pause, or leave at any time.
+Every month starts with a check-in email: "Are you in this month?" Members
+can stay in (or simply do nothing), take a break for the month, pause until
+they're back, or opt out, with one tap from the email. Members who are in
+can reveal their match on the site from the 8th (a plate flips over to show
+who it is), and their match's details arrive by email later in the month.
+The two members DM each other on LinkedIn and set up a relaxed 30-minute
+call on whatever tool suits them both (Google Meet, Teams, Zoom). Grab a
+coffee and a snack and get to know each other.
+
+At most two emails a month: the check-in from the 3rd (everyone except
+those who opted out) and the match details from the 10th (only members who
+are in that month). Both are spread over the following days if the daily
+sending limit is reached (14.4).
 
 
 ------------------------------------------------------------------------
@@ -62,8 +70,8 @@ daily sending limit is reached; see 14.1). They can take a break, pause, or leav
 Goals
 - Make it easy and low-pressure to meet someone new outside your usual
   circles, anywhere in the world.
-- Keep sign-up short: a handful of fields plus a LinkedIn check.
-- Make the monthly rhythm predictable: heads-up from the 3rd, reveal on
+- Keep sign-up short: one tap with LinkedIn plus a few fields.
+- Make the monthly rhythm predictable: check-in from the 3rd, reveal on
   the 8th, details from the 10th.
 - Make pausing or leaving effortless and guilt-free.
 - Work beautifully on phones first, then scale up to desktop.
@@ -88,16 +96,17 @@ signed up? Log in", and three short "How it works" steps.
 
 3.2 New member
 1. Taps Register (the plate).
-2. Fills in first name, last name, gender, email, password (twice),
-   current role, company, LinkedIn profile URL, and "Any fun, cool things
-   about you?". Taps Sign up.
-3. Verifies with LinkedIn (one tap: "Continue with LinkedIn"). The LinkedIn
-   email must match the email they registered with. The profile photo
-   comes from LinkedIn.
+2. Taps "Continue with LinkedIn" and signs in on LinkedIn's own page with
+   their usual LinkedIn email and password. Meet-N-Eat never sees the
+   password.
+3. Back on Meet-N-Eat, name, email and photo are already filled in from
+   LinkedIn. They choose a gender, add role, company, LinkedIn profile URL
+   and "Any fun, cool things about you?", confirm they're 18+, and tap
+   Sign up.
 4. Lands on Reveal Match, which says when their first match arrives.
 
 3.3 Returning member
-1. Taps "Log in" and enters email and password.
+1. Taps "Log in", then "Continue with LinkedIn".
 2. Lands on Reveal Match (the default tab).
 3. From the 8th, taps the plate to reveal the match, opens their LinkedIn
    and sends a DM to set up a time.
@@ -111,10 +120,10 @@ signed up? Log in", and three short "How it works" steps.
 
 Public
 - /                  Landing page
-- /register          Register form, then LinkedIn verification
-- /login             Log in
-- /forgot-password   Request a reset link
-- /reset-password    Set a new password (from emailed link)
+- /register          Continue with LinkedIn, then the short sign-up form
+- /login             Continue with LinkedIn
+- /choice            Page opened from the check-in email buttons
+                     (one "Confirm" tap, no login; see 15.5)
 - /privacy, /terms   Legal pages
 - /r/{code}          Referral link (goes to landing page with the
                      referral remembered)
@@ -162,9 +171,9 @@ treated as final apart from the changes below.
 Each step has a title of 3–4 words, one line of 10 words or fewer, and a
 small phone snapshot of the matching screen.
 
- 1. Register and verify
-    "Sign up, then confirm with your LinkedIn email."
-    Snapshot: the register form.
+ 1. Join with LinkedIn
+    "One tap with LinkedIn, then a few quick details."
+    Snapshot: the sign-up form.
  2. Reveal your match
     "On the 8th, flip the plate to meet them."
     Snapshot: the plate mid-flip.
@@ -174,8 +183,9 @@ small phone snapshot of the matching screen.
 
 5.4 "Two emails a month. No spam."
 A small block under the steps:
-- 3rd of the month: a heads-up. Stay in, take a break, or opt out.
-- 10th of the month: your match's details.
+- From the 3rd: "Are you in this month?" Stay in, take a break, pause,
+  or opt out in one tap.
+- From the 10th: your match's details.
 
 5.5 Not on the landing page
 No match preview, preferences, preferred language, interests, settings, or
@@ -186,18 +196,30 @@ No match preview, preferences, preferred language, interests, settings, or
 6. REGISTER (SIGN-UP)
 ------------------------------------------------------------------------
 
-6.1 Fields
+6.1 Flow
+1. Register (the plate) opens "Join Meet-N-Eat" with one button:
+   "Continue with LinkedIn". Line under it: "You'll sign in on LinkedIn
+   with your usual LinkedIn email and password. We never see your
+   password."
+2. LinkedIn sign-in (OpenID Connect). LinkedIn returns name, verified
+   email and photo.
+3. If that LinkedIn account already has a Meet-N-Eat account, show:
+   "You already have an account with this email. You can only create one
+   account per email." and take them to their Reveal Match page.
+4. Otherwise show the short "Almost there" form (6.2), pre-filled.
+
+Because the email always comes from LinkedIn, it is verified
+automatically. No "this email doesn't exist on LinkedIn" check is needed.
+
+6.2 Fields
 
  Field                          Rules
  -----------------------------  ---------------------------------------
- First name *                   1–50 characters
- Last name *                    1–50 characters
- Gender *                       One of four options (6.2)
- Email *                        Valid format; unique. Helper text: "Use
-                                the same email as your LinkedIn account.
-                                We'll use it to verify you."
- Password *                     At least 8 characters; show/hide toggle
- Confirm password *             Must match Password
+ First name *                   Pre-filled from LinkedIn; editable
+ Last name *                    Pre-filled from LinkedIn; editable
+ Email                          From LinkedIn; read-only. Helper: "Your
+                                monthly emails come here."
+ Gender *                       One of four options (6.3)
  Current role *                 2–80 characters, e.g. "Product Designer"
  Company *                      1–80 characters
  LinkedIn profile URL *         Must look like linkedin.com/in/...
@@ -205,71 +227,59 @@ No match preview, preferences, preferred language, interests, settings, or
  Any fun, cool things about     10–200 characters. Placeholder: "I'm a
  you? *                         pet lover, play badminton, and I'm a
                                 coffee person ☕"
+ Age *                          Checkbox: "I'm 18 or older."
+ Consent *                      Checkbox: "I agree to the Terms and
+                                Privacy Policy and to my profile being
+                                shared with my monthly match."
 
-Button: "Sign up". Below it: "Already signed up? Log in".
-Checkbox (required): "I agree to the Terms and Privacy Policy and to my
-profile being shared with my monthly match."
+Button: "Sign up". Inline checks as they type: character counts and the
+LinkedIn URL format.
 
-6.2 Gender options
+6.3 Gender options
 Pairing happens only between people who chose the same option, so the
-options must be safe and inclusive. Proposed:
+options must be safe and inclusive:
 - Woman
 - Man
 - Non-binary
 - Prefer not to say
 Helper text: "We'll pair you with someone who chose the same option."
 
-6.2a Time zone
+6.4 Time zone
 Detected automatically from the browser at sign-up (no field to fill).
 Members can change it in Edit profile. Used to send emails and open the
 reveal in their local time. If it can't be detected, UTC is used.
 
-6.3 Checks while typing (instant, debounced)
-- Email format.
-- Email already registered: "This email already has an account. You can
-  only create one account per email. Try logging in instead."
-- Password strength and "Passwords don't match".
-
-6.4 LinkedIn check
-It is not possible to check whether an email has a LinkedIn account
-while the user types (see 23.A). Instead, right after Sign up the user
-taps "Continue with LinkedIn" and we compare emails. If the LinkedIn email
-is different, show:
-"This email doesn't match your LinkedIn account. Please check it, or use
-the email that's on your LinkedIn profile."
-The user can fix the email, or verify with a different LinkedIn account.
-An account stays "unverified" (and is not matched) until this succeeds.
-
 
 ------------------------------------------------------------------------
-7. LINKEDIN VERIFICATION AND PROFILE DATA
+7. LINKEDIN SIGN-IN AND PROFILE DATA
 ------------------------------------------------------------------------
 
-7.1 Verification flow
-1. After Sign up, show "One last step: verify with LinkedIn" and a
-   "Continue with LinkedIn" button.
-2. Sign In with LinkedIn (OpenID Connect, scopes: openid, profile, email).
-3. If LinkedIn's verified email matches the registered email, mark the
-   account verified and save the LinkedIn member ID (one LinkedIn account
-   per Meet-N-Eat account).
-4. Save the profile photo from LinkedIn.
-5. Take the member to Reveal Match.
+7.1 What LinkedIn gives us
+- Sign In with LinkedIn using OpenID Connect, scopes: openid, profile,
+  email.
+- Returned: LinkedIn member ID, first and last name, verified email,
+  photo. Not returned: job title, company, profile URL, age (see 23).
+- One Meet-N-Eat account per LinkedIn account (matched on the LinkedIn
+  member ID). If the member's LinkedIn email changes, we update ours at
+  their next sign-in.
+- The photo is copied into our storage, because LinkedIn photo links can
+  expire.
 
 7.2 Member data: what we store and who sees it
 
  Data                    Source               Shown to match?
  ----------------------  -------------------  -----------------
- First name              Register form        Yes
- Last name               Register form        Yes
- Gender                  Register form        No (used for pairing)
- Email                   Register form        No
- Password                Register form        Never (hashed only)
- Fun, cool things        Register form        Yes
- Current role            Register form*       Yes
- Company                 Register form*       Yes
- LinkedIn profile URL    Register form*       Yes, clickable link
+ First name              LinkedIn / form      Yes
+ Last name               LinkedIn / form      Yes
+ Email                   LinkedIn             No
  Profile photo           LinkedIn             Yes
+ Gender                  Sign-up form         No (used for pairing)
+ Current role            Sign-up form*        Yes
+ Company                 Sign-up form*        Yes
+ LinkedIn profile URL    Sign-up form*        Yes, clickable link
+ Fun, cool things        Sign-up form         Yes
  Time zone               Browser (automatic)  No
+ 18+ confirmation        Sign-up form         No
 
  * LinkedIn's standard sign-in does not give job title, company or the
    public profile URL (see 23.B and 23.D), so members type them in at
@@ -284,17 +294,13 @@ conversation prompts.
 8. LOG IN AND ACCOUNT ACCESS
 ------------------------------------------------------------------------
 
-- Log in with email and password. Errors: "Email or password is
-  incorrect." (Never say which one.)
-- "Forgot password?" sends a reset link that works once and expires in
-  1 hour. This is a separate transactional email, not one of the two
-  monthly emails.
-- Rate-limit login and reset attempts; lock for 15 minutes after 10
-  failed attempts.
+- "Log in" → "Continue with LinkedIn". Members use their LinkedIn email
+  and password on LinkedIn's page. There are no Meet-N-Eat passwords and
+  no password-reset emails.
+- Registered → Reveal Match. Not registered yet → the sign-up form.
 - Sessions use secure, httpOnly cookies and last 30 days. Log out ends
-  the session.
-- An unverified account that logs in is sent back to the LinkedIn
-  verification step.
+  the session (it does not log them out of LinkedIn).
+- Members who opted out can log in again and choose "Stay in" to rejoin.
 
 
 ------------------------------------------------------------------------
@@ -331,18 +337,22 @@ mSite), then extended to desktop.
  Before the 8th                "Check back on the 8th 🍽️ Your match's
                                details unlock on the 8th of {Month}. Stay
                                tuned!" plus a small seasonal visual (10.3).
- New member, joined after      "You're in! Your first match arrives on the
- the cut-off                   8th of {Next month}."
- On or after the 8th, matched  The plate with one button: "Reveal your
-                               match". Tapping it flips the plate.
+ New member, joined after      "You're in! Your first match arrives in
+ this month's pairing          {Next month}."
+ Matched (round 1 from the     The plate with one button: "Reveal your
+ 8th, round 2 from the 11th)   match". Tapping it flips the plate.
  After reveal                  The match card (10.2). Stays revealed.
- On or after the 8th, not      "No match this month, we're sorry! We
- matched (odd group size or    couldn't find a new person for you this
- no new pair available)        time. You're first in line next month 💛"
- Taking a break / paused       "You're on a break. Matches resume in
-                               {Month}." or "Matching is paused." with a
-                               link to Settings.
- Left the program              Not reachable (they've left).
+ In round 2, not paired yet    "Your match is on its way 🍳 It'll be ready
+                               to reveal on the 11th."
+ In, but no partner this       "No match this month, we're sorry! We
+ month (odd group size or no   couldn't find a new person for you this
+ new pair available)           time. You're first in line next month 💛"
+ Taking a break this month     "Enjoy your break ☕ You'll get our check-in
+                               again next month." Link to Settings.
+ Paused                        "You're on pause. Ready to jump back in?"
+                               Button: "Count me in" (goes to Settings).
+ Opted out                     "You've left Meet-N-Eat. Want to come
+                               back?" Button: "Rejoin".
 
 10.2 Match card (after the flip)
 - Profile photo
@@ -400,21 +410,30 @@ No hobby or preference questions on this page.
 Heading: "We respect your availability."
 Current status shown at the top (for example "You're in for December").
 
-Options (pick one, then confirm):
- 1. Stay in (default): "Keep matching me every month."
- 2. Take a break: "Skip next month's reveal. I'll be back the month
-    after." Resumes automatically after one month.
- 3. Pause until I'm back: "No matches until I turn this back on."
- 4. Leave the program: "We won't send you any matches or emails." Asks
-    for confirmation. Also offers "Delete my account and data" (see 19).
+Options (pick one, then confirm). These are the same four choices as the
+buttons in the check-in email; whichever was chosen last counts.
+ 1. Stay in (default): "Keep matching me every month." Doing nothing
+    after the check-in email also means Stay in.
+ 2. Take a break this month: "Skip this month. I'll be back next month."
+    Ends automatically; next month's check-in arrives as usual.
+ 3. Pause until I'm back: "No matches until I switch back on. I'll still
+    get the monthly check-in email so I can jump back in."
+ 4. Opt out: "Leave Meet-N-Eat. No more matches or emails." Asks for
+    confirmation. Past connects are kept so they can rejoin later. Also
+    offers "Delete my account and data" (see 19).
 
-Timing rule: changes made before pairing (the 7th, shown in the member's
-local time) apply to that month. Changes after that apply from next month;
-a match that has already been made still stands. Show this rule in one line
-under the options.
+Timing rule: a choice counts for this month if it's made before the
+member's pairing round (round 1 on the 7th, or round 2 on the 11th; see
+14.1). After that it applies from next month, and a match already made
+still stands. Show this in one line, in the member's local time.
 
-Members on a break or paused get the heads-up email only in the month
-they are due back. Members who leave get no emails at all.
+Who gets which email (summary of 15.1):
+ Status / choice              Check-in email   Match email
+ ---------------------------  ---------------  -----------
+ Stay in (or no reply)        Yes              Yes
+ Take a break this month      Yes              No
+ Paused                       Yes              No
+ Opted out                    No               No
 
 
 ------------------------------------------------------------------------
@@ -425,8 +444,8 @@ Opened from the avatar (top right):
 - My details: photo, name, role, company, fun things and LinkedIn URL,
   shown first as a read-only view with an "Edit" button.
 - Edit profile: first/last name, gender, fun things, role, company,
-  LinkedIn URL, time zone. Photo: "Refresh from LinkedIn" or remove. Changing email
-  needs LinkedIn verification again.
+  LinkedIn URL, time zone. Photo: "Refresh from LinkedIn" or remove.
+  The email always follows their LinkedIn account.
 - Refer a friend: a personal link (meet-n-eat.../r/{code}) with "Copy
   link" and the phone's share sheet. Message: "I'm meeting one new person
   every month on Meet-N-Eat. Come join me ☕"
@@ -442,23 +461,36 @@ Times are in each member's local time when we know it, otherwise UTC.
 
  When                      What happens
  ------------------------  -----------------------------------------------
- 3rd → 9th, 09:00 local    Email 1 (heads-up). Sent from the 3rd until
-                           everyone has it, at most the daily limit per day
-                           (14.4). Usually everyone gets it on the 3rd.
- Up to the 7th             Members can take a break, pause, or leave for
-                           this month.
- 7th, 10:00 UTC            Pairing job runs once for everyone (this is the
-                           moment the 8th begins in the earliest time zone).
- 8th, 00:00 local          Reveal opens on the site. Optional: members can
-                           wait for the email instead.
- 10th → 15th (and later    Email 2 (match details, or the "no match" note).
- if needed), 09:00 local   Sent from the 10th, at most the daily limit per
-                           day; the rest roll over to the next day.
+ 3rd → 9th, 09:00 local    Email 1, the check-in ("Are you in this
+                           month?"), to everyone except members who opted
+                           out. At most the daily limit per day (14.4);
+                           most months everyone gets it on the 3rd.
+ Until your pairing round  Members can stay in, take a break, pause or
+                           opt out (from the email or Settings).
+ 7th, 10:00 UTC            Pairing round 1: everyone who is in and whose
+                           check-in was sent before this moment. (10:00 UTC
+                           on the 7th is when the 8th begins in the
+                           earliest time zone.)
+ 8th, 00:00 local          Reveal opens on the site for round 1. Optional;
+                           members can wait for the email.
+ 10th onwards, 09:00       Email 2, the match details (or the "no match"
+ local                     note), only to members who are in this month.
+                           Round 1 first, then round 2. At most the daily
+                           limit per day; the rest roll over to the next
+                           day, and so on.
+ 11th, 10:00 UTC           Pairing round 2, only if needed: members whose
+                           check-in went out after round 1 (on the 7th–9th),
+                           plus round-1 members left without a partner.
+                           Their reveal opens straight away and their match
+                           email follows in the queue.
+
+Round 2 only happens when the check-in can't reach everyone before the 7th,
+which means more than about 1,900 members on free Gmail.
 
 14.2 Who is eligible in a given month
-- Account is verified with LinkedIn and the profile is complete.
-- Status is "Stay in" (or their break has ended).
-- Registered before pairing on the 7th. Later sign-ups join next month.
+- Signed up with LinkedIn and the profile is complete.
+- Status is Stay in (chosen or by default) for this month.
+- Joined before round 1. Later sign-ups join next month.
 
 14.3 Pairing rules
 - Same gender option only.
@@ -475,7 +507,7 @@ Times are in each member's local time when we know it, otherwise UTC.
 
 14.4 Daily email limit and roll-over
 - Gmail allows about 500 emails in any 24 hours. Scheduled emails use at
-  most 480 a day (configurable), keeping 20 for password resets.
+  most 480 a day (configurable), keeping a little headroom for retries.
 - A job runs every hour. It picks members whose local time has just
   reached 09:00 on or after the send date, who haven't had this month's
   email yet, until the 24-hour total reaches 480. Anyone left over is sent
@@ -484,10 +516,10 @@ Times are in each member's local time when we know it, otherwise UTC.
   month.
 - Email 1 runs from the 3rd to the 9th: room for about 3,300 members.
   Email 2 starts on the 10th and keeps going day by day until everyone
-  has it (6 days to the 15th covers about 2,900 members).
-- If Email 1 reaches someone on the 8th or 9th, their match is already
-  ready, so that email says "Your match is ready to reveal now" instead
-  of "on the 8th".
+  who is in has it (6 days to the 15th covers about 2,900 members).
+- If Email 1 reaches someone on the 7th–9th (after round 1), it's still
+  just the check-in. Their answer counts for this month and, if they're
+  in, they're paired in round 2 and get their match later in the month.
 - When membership gets close to these numbers, the admin view shows a
   warning; moving to Google Workspace (about 2,000 a day) or an email
   service is a settings change.
@@ -500,12 +532,17 @@ Times are in each member's local time when we know it, otherwise UTC.
 15.1 Rules
 - Sent through Gmail SMTP using credentials kept in Vercel environment
   variables (see 23.E for limits).
-- Exactly two scheduled emails per member per month: Email 1 from the 3rd
-  and Email 2 from the 10th, following the daily limit and roll-over in
-  14.4. The "no match" note replaces Email 2; it is not a third email. The password reset
-  email is transactional and doesn't count.
-- Every email has an HTML version and a plain-text version, a link to the
-  portal, and a one-click link to manage settings / opt out.
+- At most two emails per member per month:
+    • Email 1, the check-in, from the 3rd: everyone except members who
+      opted out (including members on a break or paused).
+    • Email 2, the match details, from the 10th: only members who are in
+      this month. Not sent to members on a break, paused or opted out.
+      The "no match" note replaces Email 2 for members who are in but got
+      no partner; it is not a third email.
+- Both follow the daily limit and roll-over in 14.4.
+- Every email has an HTML version and a plain-text version and a link to
+  the site. Email 1 also carries Gmail's built-in one-click unsubscribe
+  (counts as Opt out).
 - Sending is idempotent: one email per member, month and type, even if a
   job is retried.
 - Templates live in the code repository so they can be personalised
@@ -514,28 +551,43 @@ Times are in each member's local time when we know it, otherwise UTC.
   over SMTP.
 - The copy below still needs a humanising pass (see Action items).
 
-15.2 Email 1 — Heads-up (from the 3rd)
+15.2 Email 1 — Monthly check-in (from the 3rd)
 
-Subject: You're on the list for {Month} 🍽️
+Subject: Are you in for {Month}? 🍽️
 
   Hi {First name} 👋
 
-  Quick heads-up: you're part of the Meet-N-Eat club this month, and
-  we're plating up your match as we speak. 🍳
+  New month, new face to meet! Before we plate up your {Month} match,
+  a quick check: are you in?
 
-  From the 8th you can reveal your match on the site if you're curious,
-  and from the 10th we'll send their details to this inbox. Keep an eye out. 👀
+  [ ✅ Yes, I'm in ]
+  [ ☕ Take a break this month ]
+  [ ⏸️ Pause until I'm back ]
+  [ 👋 Opt out ]
 
-  Busy month? Totally fine.
-   • Want to skip just this month? Log in and choose "Take a break"
-     by the 7th.
-   • Want to step away? You can opt out anytime from Settings, and we
-     won't pair you again.
-   • Happy to keep going? Do nothing at all. Your match is on its way. ☕
+  Happy to keep going? You don't even need to click. Do nothing and
+  you're in. Your match's details will land in this inbox later this
+  month (or peek on the site from the 8th 👀).
 
-  [ Open Meet-N-Eat ]
+  Each button opens a page where one tap confirms it. No login needed,
+  and you can change your mind anytime in Settings.
 
   See you at the table,
+  The Meet-N-Eat team
+
+15.2b Email 1 — version for paused members
+
+Subject: Fancy jumping back in for {Month}? ☕
+
+  Hi {First name},
+
+  You're on pause right now, and that's totally fine. If you'd like a
+  match this month, tap below. If not, do nothing and you'll stay paused.
+
+  [ ✅ I'm back, count me in ]
+  [ 👋 Opt out ]
+
+  Hope you're doing well,
   The Meet-N-Eat team
 
 15.3 Email 2 — Your match (from the 10th)
@@ -582,24 +634,45 @@ Subject: No match this month, but you're first in line 💛
   (sometimes the numbers just don't add up). You'll be first in line in
   {Next month}. Thanks for your patience, and see you then! ☕
 
+15.5 One-tap choices from the email
+- Each button in Email 1 is a personal, signed link (it only works for
+  that member and that month, and can only change their participation,
+  nothing else).
+- The link opens a small page: "Take a break this month?" with one
+  "Confirm" button. One tap updates the database straight away and shows
+  "Done! Enjoy your break ☕". No login needed.
+- Why one confirm tap instead of zero: some work email systems
+  automatically "click" every link in an email to scan it for viruses. If
+  a link changed the database on its own, those scanners could opt people
+  out by accident. The confirm tap prevents that.
+- Gmail's own "Unsubscribe" button (shown next to the sender) is a true
+  one-click opt-out; scanners can't trigger it.
+- The member can always change the choice later in Settings.
+
 
 ------------------------------------------------------------------------
 16. DATA MODEL (NEON POSTGRES)
 ------------------------------------------------------------------------
 
 members
-  id (uuid, PK), first_name, last_name,
+  id (uuid, PK), linkedin_sub (unique; LinkedIn member ID),
+  first_name, last_name, email (citext, unique; from LinkedIn),
   gender (enum: woman | man | non_binary | prefer_not_to_say),
-  email (citext, unique), password_hash (argon2id),
-  fun_facts (text), job_title, company, linkedin_url,
-  linkedin_sub (unique; LinkedIn member ID), photo_url,
-  linkedin_verified_at, terms_accepted_at,
-  status (enum: active | break | paused | left), break_until (date),
+  fun_facts (text), job_title, company, linkedin_url, photo_url,
+  timezone (IANA name, default 'UTC'),
+  age_confirmed_at, terms_accepted_at,
+  status (enum: active | paused | left),
   referral_code (unique), referred_by (FK members),
   created_at, updated_at, deleted_at
 
+member_months   -- one row per member per month
+  member_id, period (date = first day of month),
+  choice (enum: in | break), choice_source (default | email | site),
+  chosen_at, round (1 | 2, nullable), checkin_sent_at
+  primary key (member_id, period)
+
 matches
-  id (uuid, PK), period (date = first day of month),
+  id (uuid, PK), period, round (1 | 2),
   member_low, member_high (FKs; low < high),
   created_at, revealed_at_low, revealed_at_high
   unique (member_low, member_high)          -- never repeat a pair
@@ -609,16 +682,13 @@ match_waitlist
   member_id, period (who sat out, for next-month priority)
 
 email_log
-  id, member_id, period, type (heads_up | match | no_match | reset),
+  id, member_id, period, type (checkin | match | no_match),
   status (queued | sent | failed), attempts, sent_at, error
   unique (member_id, period, type)
 
 feedback
   id, member_id, match_id (nullable), met (yes | not_yet | could_not),
   rating (1–5), comment, is_concern (bool), created_at
-
-password_resets
-  token_hash, member_id, expires_at, used_at
 
 sessions
   managed by the auth/session library
@@ -633,17 +703,15 @@ Decided: Vercel + Neon only. No Railway.
   handlers).
 - Neon Postgres with the Neon serverless driver. Connection string kept in
   Vercel environment variables.
-- Auth: email + password (argon2id hashing) with httpOnly session
-  cookies. LinkedIn OpenID Connect used for verification and the photo.
+- Auth: Sign In with LinkedIn (OpenID Connect) only, with httpOnly
+  session cookies. No passwords stored.
 - Email: Nodemailer over Gmail SMTP (App Password).
-- Scheduled jobs (Vercel Cron, calling protected API routes):
-    • hourly: the email sender (14.4), which handles Email 1 and Email 2
-      and the daily limit;
-    • monthly, 7th 10:00 UTC: the pairing job.
-  Jobs send in small batches so they stay within serverless time limits,
-  and resume where they stopped. Vercel's Hobby plan only allows daily
-  cron jobs, so the hourly sender needs the Pro plan (or an external
-  scheduler that calls the same route).
+- Scheduled jobs: a free external scheduler (cron-job.org) calls one
+  protected route every hour. That route sends whatever emails are due
+  (14.4) and runs a pairing round when it's time (7th and, if needed,
+  11th, at 10:00 UTC). Each run works in small batches so it stays within
+  serverless time limits and picks up where it stopped. This works on
+  Vercel's free Hobby plan.
 - Photos: copy the LinkedIn photo into Vercel Blob storage so it doesn't
   expire.
 - Monitoring: Vercel logs plus a small admin view of job results.
@@ -674,20 +742,24 @@ Decided: Vercel + Neon only. No Railway.
 - Members are told at sign-up exactly what their match will see (7.2) and
   agree to it.
 - Gender and email are never shown to other members.
-- 18+ only (checkbox at sign-up).
+- 18+ only, self-declared with a checkbox at sign-up. LinkedIn doesn't
+  share age, and real age checks need ID verification, which is too heavy
+  for this product (see 23.G). Terms say members must be 18+; anyone
+  reported as under 18 is removed.
 - Members anywhere in the world can join, so follow GDPR-style basics:
   privacy policy, data export on request, and real account deletion.
 - "Report a concern" sends the report to the admin inbox. The admin can
   stop pairing a member.
-- Passwords are hashed; LinkedIn access tokens are not stored after
-  verification.
+- Meet-N-Eat never sees LinkedIn passwords, and LinkedIn access tokens
+  are not stored after sign-in.
 
 
 ------------------------------------------------------------------------
 20. SUCCESS MEASURES
 ------------------------------------------------------------------------
 
-- Register → LinkedIn-verified conversion rate.
+- Register started → sign-up completed.
+- Check-in response rate (stay in / break / pause / opt out).
 - Monthly active members, and break / pause / leave rates.
 - Pairing rate per gender group, and how many wait.
 - Reveal rate (revealed by the 15th).
@@ -701,14 +773,14 @@ Decided: Vercel + Neon only. No Railway.
 ------------------------------------------------------------------------
 
 MVP
-- Landing page changes, register + LinkedIn verification,
-  log in / forgot password, Reveal Match with plate flip, Past Connects
-  and feedback, Settings, profile menu with refer and log out, the 3rd
-  and 10th emails, the pairing job, Neon database, mobile-first layout.
+- Landing page changes, LinkedIn sign-up and log in, Reveal Match with
+  plate flip, Past Connects and feedback, Settings, profile menu with
+  refer and log out, the check-in email with one-tap choices, the match
+  email, the pairing rounds, Neon database, mobile-first layout.
 
 Phase 2
 - Monthly vibe decorations, a feedback dashboard for the admin, referral
-  stats, showing dates in each member's local time.
+  stats.
 
 
 ------------------------------------------------------------------------
@@ -717,29 +789,32 @@ Phase 2
 
  v1.0 (current code)                      v2.0 (this PRD)
  ---------------------------------------  ---------------------------------
- LinkedIn-only sign-in                    Email + password; LinkedIn used
-                                          to verify
+ LinkedIn-only sign-in                    LinkedIn-only sign-in (kept),
+                                          plus a short sign-up form
  Interests checklist                      One "fun, cool things" text field
  Cadence: monthly / 2 / 3 months          Stay in / take a break / pause /
                                           leave
- Pairing and email on the 1st             Heads-up from 3rd, reveal 8th,
-                                          match email from 10th, daily
-                                          limit with roll-over
+ Pairing and email on the 1st             Check-in from 3rd with one-tap
+                                          choices, pairing rounds 7th
+                                          (and 11th), reveal 8th, match
+                                          email from 10th, daily limit
+                                          with roll-over
  Match email hides the partner            Match email includes partner's
                                           details
- Gender: Man, Woman, Non-binary,          Same four options (to confirm)
+ Gender: Man, Woman, Non-binary,          Same four options
  Prefer not to say
  Express API + Postgres on Railway        Next.js on Vercel + Neon Postgres
  Resend for email                         Gmail SMTP
  Three-column dashboard                   Mobile bottom menu; three columns
                                           on desktop
  —                                        Profile photo, role, company,
-                                          referrals, password reset, monthly
+                                          referrals, time zones, monthly
                                           vibe
 
-Code impact: the frontend landing page can be adapted. Auth, the database
-schema, the scheduled jobs and the email sending need to be largely
-rewritten. The no-repeat pairing logic in
+Code impact: the frontend landing page can be adapted, and the LinkedIn
+sign-in logic in backend/src/passport.js can be reused as a starting point.
+The database schema, the scheduled jobs and the email sending need to be
+largely rewritten. The no-repeat pairing logic in
 backend/src/jobs/create-monthly-matches.js can be reused.
 
 
@@ -747,14 +822,10 @@ backend/src/jobs/create-monthly-matches.js can be reused.
 23. FEASIBILITY NOTES
 ------------------------------------------------------------------------
 
-A. Checking whether an email has a LinkedIn account. NOT POSSIBLE AS
-   ASKED. LinkedIn has no public way to look up whether an email belongs
-   to an account (that would let anyone find out who uses LinkedIn), and
-   scraping breaks LinkedIn's terms. What works instead: the member signs
-   in with LinkedIn once, and we compare LinkedIn's verified email with
-   the one they registered. That proves they have a LinkedIn account and
-   own it. Because of this, the check happens straight after "Sign up"
-   rather than while typing. No extra tool is needed.
+A. Checking whether an email has a LinkedIn account. RESOLVED. LinkedIn
+   has no way to look up whether an email belongs to an account, but we
+   don't need one: members sign in with LinkedIn, so the email we get is
+   LinkedIn's own verified email.
 
 B. Fetching current job title and company. NOT AVAILABLE through the
    standard "Sign In with LinkedIn" (it gives name, email, photo and
@@ -782,6 +853,19 @@ E. Gmail SMTP. FEASIBLE with limits.
    - If you grow past these limits, switching to a transactional email
      service only means changing the sending settings.
 
+F. One-tap choices from an email. FEASIBLE. Signed personal links update
+   the database after one confirm tap, with no login (15.5).
+
+G. Age check. LinkedIn does not share a member's age or birth date, and
+   anyone can sign in with LinkedIn. Asking for a birth year doesn't prove
+   anything either; real checks need ID documents. Decided: 18+, declared
+   with a checkbox and backed by the Terms and the "Report a concern"
+   option. 18+ is the safer choice because the product sets up private
+   one-to-one calls between strangers; under-18s bring extra legal duties
+   in many countries (for example parental consent rules for data in
+   parts of the EU). This is not legal advice; check with a lawyer before
+   launch if you can.
+
 
 ------------------------------------------------------------------------
 24. DECISIONS LOG
@@ -789,31 +873,36 @@ E. Gmail SMTP. FEASIBLE with limits.
 
 Confirmed by Minaxi (15 Nov 2026)
  1. Hosting: Vercel + Neon only. No Railway.
- 2. Two emails a month only. Email 1 from the 3rd (3rd–9th), Email 2 from
-    the 10th (10th–15th and later if needed), within the daily limit,
+ 2. Two emails a month at most. Email 1 from the 3rd (3rd–9th), Email 2
+    from the 10th (10th–15th and later if needed), within the daily limit,
     rolling over to the next day.
- 3. The 8th is only for members who want to reveal on the site early.
- 4. Use each member's local time when we have it.
- 5. Role, company and LinkedIn URL are asked at sign-up.
- 6. Top left: plate logo, not clickable. Top right: "My profile", a small
+ 3. Email 1 is a check-in: stay in, take a break this month, pause until
+    I'm back, or opt out, with one tap from the email. Doing nothing means
+    stay in.
+ 4. Email 1 goes to everyone except opted-out members. Email 2 goes only
+    to members who are in that month.
+ 5. The 8th is only for members who want to reveal on the site early.
+ 6. Use each member's local time when we have it.
+ 7. Sign in with LinkedIn only; no Meet-N-Eat password.
+ 8. Role, company and LinkedIn URL are asked at sign-up.
+ 9. Top left: plate logo, not clickable. Top right: "My profile", a small
     circle with the member's photo; tapping it shows and edits their
     details.
+10. Opting out keeps history.
+11. External scheduler instead of Vercel Pro.
+12. Age: 18+ (Claude's recommendation; Minaxi was open to 16+ or 18+).
 
 Defaults taken by Claude (change any of these anytime)
- 7. Members with no match get the "no match, you're first in line" note
-    as their second email.
- 8. The match card shows LinkedIn only, not email.
- 9. Gender options: Woman / Man / Non-binary / Prefer not to say; each
+13. Members who are in but get no partner get the "no match, you're first
+    in line" note as their second email.
+14. The match card shows LinkedIn only, not email.
+15. Gender options: Woman / Man / Non-binary / Prefer not to say; each
     is its own pairing group.
-10. "Any fun, cool things about you?" is required.
-11. Phone bottom menu: Past Connects · Reveal Match · Settings.
-12. "Pause until I'm back" is open-ended.
-13. Leaving keeps history (so members can come back); full deletion is
-    also offered.
-14. 18+ only; no country restrictions.
-15. Monthly vibe decorations come in Phase 2.
-16. Sender: free Gmail for now; switch when membership grows.
-17. Domain: use the Vercel address until a domain is bought.
+16. "Any fun, cool things about you?" is required.
+17. Phone bottom menu: Past Connects · Reveal Match · Settings.
+18. Monthly vibe decorations come in Phase 2.
+19. Sender: free Gmail for now; switch when membership grows.
+20. Domain: use the Vercel address until a domain is bought.
 
 
 ------------------------------------------------------------------------
@@ -825,11 +914,27 @@ For Minaxi
     project's environment variables as DATABASE_URL (not in chat).
 [ ] Gmail: turn on 2-Step Verification, create an App Password, and add
     SMTP_USER and SMTP_PASS to Vercel environment variables (not in chat).
-[ ] LinkedIn Developer app: enable "Sign In with LinkedIn using OpenID
-    Connect" and add the redirect URL
-    https://{your-domain}/api/auth/linkedin/callback
-[ ] Vercel: confirm the project (Pro plan needed for the hourly email
-    job) and the domain, if any.
+[ ] LinkedIn Developer app (a website, nothing to download):
+    1. Have a LinkedIn Company Page for Meet-N-Eat (LinkedIn requires one
+       to create an app). If you don't have one, create it from LinkedIn:
+       For Business → Create a Company Page.
+    2. Go to linkedin.com/developers → "Create app". Enter the app name
+       (Meet-N-Eat), pick your Company Page, add a logo, tick the legal
+       agreement, and create it.
+    3. Settings tab → "Verify" next to the Company Page. Open the link it
+       gives you while logged in as the page admin and approve it.
+    4. Products tab → "Sign In with LinkedIn using OpenID Connect" →
+       Request access. It is usually approved straight away.
+    5. Auth tab → Authorized redirect URLs → add
+       https://{your-vercel-domain}/api/auth/linkedin/callback
+       and, for testing, http://localhost:3000/api/auth/linkedin/callback
+    6. Auth tab → copy the Client ID and Primary Client Secret into the
+       Vercel project's environment variables as LINKEDIN_CLIENT_ID and
+       LINKEDIN_CLIENT_SECRET (not in chat).
+[ ] Scheduler: create a free cron-job.org account. Claude will give you
+    the exact URL and secret to paste in once the app is deployed.
+[ ] Vercel: create the project (free Hobby plan is fine) and note its
+    domain for the LinkedIn redirect URL.
 [ ] Privacy policy and terms (needed before launch).
 [ ] Humanise the email copy (section 15) and the on-screen text using
     Skill Hunter. Suggested prompt:
@@ -839,16 +944,16 @@ For Minaxi
     month. Make it sound like a warm, humble, slightly playful friend
     wrote it, not a company. Use simple English that non-native speakers
     understand easily. Keep sentences short. Keep 2–4 emojis per email,
-    no more. Do not change dates (3rd, 7th, 8th, 10th), links, button
+    no more. Do not change dates (3rd, 7th, 8th, 10th, 11th), links, button
     labels, or placeholders in curly braces like {First name}. Keep each
     email about the same length or shorter."
 
 For Claude
 [ ] Update the landing page (hero layout, plate CTA, three steps, emails
     line, mobile layout).
-[ ] Build register, LinkedIn verification, log in and password reset.
+[ ] Build LinkedIn sign-up and log in, and the sign-up form.
 [ ] Build the member app: Reveal Match, Past Connects + feedback,
     Settings, profile menu.
-[ ] Set up the Neon schema, pairing job, email templates and scheduled
-    jobs.
+[ ] Set up the Neon schema, pairing rounds, check-in and match emails,
+    one-tap choice links, and the hourly job route.
 [ ] Update README with the new setup and deployment steps.
