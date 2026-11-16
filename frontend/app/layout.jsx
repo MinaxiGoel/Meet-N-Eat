@@ -1,10 +1,21 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Meet & Eat — A little more human, once a month",
-  description: "One thoughtful introduction at your pace. Meet someone new and share a 30-minute conversation.",
+  title: "Meet-N-Eat — your monthly match is behind the plate",
+  description: "Meet one new person a month over a relaxed 30-minute coffee call.",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#faf8f1",
 };
 
 export default function RootLayout({ children }) {
-  return <html lang="en"><body>{children}</body></html>;
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
 }

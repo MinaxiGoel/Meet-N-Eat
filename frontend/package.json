@@ -1,19 +1,23 @@
 {
-  "name": "meet-and-eat-web",
-  "version": "1.0.0",
+  "name": "meet-n-eat",
+  "version": "2.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "db:setup": "node --env-file=.env.local scripts/setup-db.mjs",
+    "test": "node --test \"tests/*.test.js\""
+  },
+  "engines": {
+    "node": ">=20.6"
   },
   "dependencies": {
     "next": "^15.5.27",
+    "nodemailer": "^6.10.1",
+    "pg": "^8.16.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
-  },
-  "devDependencies": {
-    "eslint": "^9.35.0",
-    "eslint-config-next": "^15.5.27"
   }
 }

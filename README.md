@@ -1,79 +1,60 @@
-# Meet & Eat
+# Meet-N-Eat
 
-Meet & Eat introduces members to one new person at a time for a 30-minute conversation. Visitors see a concise landing page and sign up with LinkedIn. After authentication, members complete their profile, then use a dashboard to reveal matches, browse past introductions, and change matching cadence or email reminders.
-
-The profile collects first and last name, one of four gender identities, a preferred email address, and interests. Matches are limited to the same gender identity group, and a pair is never repeated. Members may participate monthly, every two months, every three months, or pause.
+Meet-N-Eat pairs people across the globe with one new person a month (same gender only, never the same pair twice) for a relaxed 30-minute coffee call. Members join with LinkedIn, get a check-in email from the 3rd, can reveal their match on the site from the 8th, and get their match’s details by email from the 10th. See `PRD.txt` for the full product spec.
 
 ## Project layout
 
-- `frontend/` — responsive Next.js site, deployed from the `frontend` root on Vercel.
-- `backend/` — Express API, Passport LinkedIn OpenID Connect, PostgreSQL schema, pairing and email jobs, deployed on Railway.
-- `PRD.txt` — complete product requirements.
-- `assets/meet-and-eat-hero.png` — source artwork, copied into `frontend/public/`.
-- Root `index.html`, `styles.css`, and `script.js` are the original static concept and are not used by the Next.js deployment.
+- `frontend/` — the whole app: Next.js website + API, deployed on **Vercel**, data in **Neon Postgres**.
+  - `app/` — pages (landing, register, login, member app, profile, email-choice page) and API routes under `app/api/`.
+  - `lib/` — server logic: database schema, pairing, monthly schedule, emails, LinkedIn sign-in.
+  - `tests/` — unit tests (`npm test`).
+- `PRD.txt` — product requirements.
+- `assets/` — source artwork.
+- `backend/`, root `index.html`, `styles.css`, `script.js` — old versions, no longer used.
 
-## Run locally
+## Run it on your computer
 
-Use Node.js 20 or newer and a local PostgreSQL database.
+You need Node.js 20.6 or newer.
 
-1. Copy `backend/.env.example` to `backend/.env` and set `DATABASE_URL` and a long random `SESSION_SECRET`.
-2. In `backend/`, run `npm install`, then `npm run dev`.
-3. Copy `frontend/.env.example` to `frontend/.env.local`. Set `API_ORIGIN=http://localhost:4000`.
-4. In `frontend/`, run `npm install`, then `npm run dev`.
-5. Open `http://localhost:3000`.
+1. `cd frontend`
+2. Copy `.env.example` to `.env.local` and fill in at least `DATABASE_URL` and `SESSION_SECRET`. Keep `EMAIL_DRY_RUN=1` so emails print in the terminal instead of being sent.
+3. `npm install`
+4. `npm run db:setup` (creates the tables in Neon; safe to run again)
+5. `npm run dev` and open http://localhost:3000
+6. `npm test` runs the unit tests.
 
-The Express service creates and updates its tables when it starts. LinkedIn sign-in stays disabled until client credentials are configured.
+LinkedIn sign-in needs `LINKEDIN_CLIENT_ID` and `LINKEDIN_CLIENT_SECRET`, and `http://localhost:3000/api/auth/linkedin/callback` added as a redirect URL in the LinkedIn app.
 
-## LinkedIn app setup
+## Deploy
 
-Create a LinkedIn Developer app and enable **Sign In with LinkedIn using OpenID Connect**. Request the `openid`, `profile`, and `email` scopes. Add the exact redirect URI below to the app’s authorized redirect URLs:
+**Neon:** create a project and copy the *pooled* connection string. Run `npm run db:setup` once with it.
 
-```text
-https://YOUR-VERCEL-DOMAIN/api/auth/linkedin/callback
-```
-
-The Next.js rewrite proxies `/api/*` to Railway while keeping the browser and session cookie on the Vercel origin. Set `LINKEDIN_CALLBACK_URL` to the same URL in Railway and `FRONTEND_URL` to the Vercel site origin. For local development, add `http://localhost:3000/api/auth/linkedin/callback` as another redirect URI.
-
-LinkedIn email is not the match-email destination. Members select their preferred email after sign-in. The app does not post or request connections on their behalf. Add a LinkedIn profile URL in the member profile if they want their match to have a direct link.
-
-## Deploy the web app to Vercel
-
-Import the repository into Vercel and set **Root Directory** to `frontend`. Vercel detects Next.js automatically. Add this environment variable before deploying:
+**Vercel:** import the GitHub repo, set **Root Directory** to `frontend`, and add these environment variables:
 
 | Variable | Value |
 | --- | --- |
-| `API_ORIGIN` | Public HTTPS origin for the Railway Express service, without a trailing slash |
+| `DATABASE_URL` | Neon pooled connection string |
+| `SESSION_SECRET` | A random string, 32+ characters |
+| `PUBLIC_SITE_URL` | Your site address, e.g. `https://meet-n-eat.vercel.app` |
+| `LINKEDIN_CLIENT_ID` / `LINKEDIN_CLIENT_SECRET` | From the LinkedIn Developer app |
+| `SMTP_USER` / `SMTP_PASS` | Gmail address and its 16-character App Password |
+| `EMAIL_FROM_NAME` | `Meet-N-Eat` |
+| `CRON_SECRET` | Another random string, 16+ characters |
 
-The rewrite target is read from `API_ORIGIN` during the Next.js build, so redeploy after changing it.
+Don’t set `EMAIL_DRY_RUN` on Vercel.
 
-## Deploy the API and database to Railway
+**LinkedIn:** in the Developer app’s Auth tab, add `https://<your-site>/api/auth/linkedin/callback`.
 
-1. Create a Railway project and add a PostgreSQL service.
-2. Add a service from this repository. Set its **Root Directory** to `/backend` and, if needed, Config-as-Code file to `/backend/railway.json`.
-3. Generate a public domain for the API. The service listens on Railway’s `PORT` and has a `/health` health check.
-4. Set these variables on the API service:
+**Scheduler (free):** create a job on [cron-job.org](https://cron-job.org) that calls
+`https://<your-site>/api/cron` every **15 minutes**, with the request header
+`Authorization: Bearer <CRON_SECRET>`. Each call runs pairing when it’s due and sends whatever emails are due. You can open the URL with `?key=<CRON_SECRET>` in a browser to see what it did.
 
-| Variable | Value |
+## The monthly rhythm
+
+| When (member’s local time) | What happens |
 | --- | --- |
-| `DATABASE_URL` | Railway Postgres service `DATABASE_URL` reference |
-| `NODE_ENV` | `production` |
-| `SESSION_SECRET` | A unique random secret of at least 32 characters |
-| `FRONTEND_URL` | Vercel site origin, for example `https://meet-and-eat.vercel.app` |
-| `LINKEDIN_CLIENT_ID` | Client ID from the LinkedIn app |
-| `LINKEDIN_CLIENT_SECRET` | Client secret from the LinkedIn app |
-| `LINKEDIN_CALLBACK_URL` | `${FRONTEND_URL}/api/auth/linkedin/callback` using the actual public URL |
-| `RESEND_API_KEY` | Resend API key for match emails |
-| `EMAIL_FROM` | Sender address on a domain verified with Resend |
-| `PUBLIC_SITE_URL` | Same public Vercel site origin |
-
-The API creates a PostgreSQL-backed session store. Keep LinkedIn credentials, session secret, database credentials, and email API key out of Vercel public `NEXT_PUBLIC_*` variables.
-
-## Matching and monthly email job
-
-The Railway cron pairs eligible members on the first of each month. Members who finish registration during a month are queued for the next period. Members must have a complete profile, an active cadence, no match already in that period, and enough time since their prior match to meet their chosen cadence.
-
-Pairing happens independently within each of the four gender identity groups. It computes the largest feasible set of pairs whose partners have never previously been matched, and it never falls back to repeat pairs. With an odd group size, at least one person must wait; members can also wait when all fresh partner combinations have already been used. The job reports unmatched counts by group in Railway logs.
-
-After pairing, the job emails each matched member who enabled reminders, using their preferred email address. Delivery is idempotent per member and match. Create a second Railway service from this repository with root directory `/backend`, Config-as-Code file `/backend/railway-cron.json`, and the same database, Resend, sender, and public-site variables. Set its **Cron Schedule** to `0 9 1 * *` (09:00 UTC on the first day of each month). The cron command pairs members, sends eligible email, then exits.
-
-For a manual run, execute `npm run monthly:run` in the backend. `npm run pair:monthly` only runs the pairing task.
+| From the 3rd, 09:00 | Check-in email to everyone except opted-out members (max 480/day, the rest roll over) |
+| 7th, 10:00 UTC | Pairing round 1 |
+| From the 8th, 00:00 | Reveal opens on the site |
+| From the 10th, 09:00 | Match email (or a “no match this month” note) to members who are in |
+| 11th, 10:00 UTC | Pairing round 2, only if some check-ins went out after round 1 |
