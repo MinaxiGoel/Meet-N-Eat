@@ -35,7 +35,6 @@ LinkedIn sign-in needs `LINKEDIN_CLIENT_ID` and `LINKEDIN_CLIENT_SECRET`, and `h
 | --- | --- |
 | `DATABASE_URL` | Neon pooled connection string |
 | `SESSION_SECRET` | A random string, 32+ characters |
-| `PUBLIC_SITE_URL` | Your site address, e.g. `https://meet-n-eat.vercel.app` |
 | `LINKEDIN_CLIENT_ID` / `LINKEDIN_CLIENT_SECRET` | From the LinkedIn Developer app |
 | `SMTP_USER` / `SMTP_PASS` | Gmail address and its 16-character App Password |
 | `EMAIL_FROM_NAME` | `Meet-N-Eat` |

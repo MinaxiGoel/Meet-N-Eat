@@ -1,4 +1,12 @@
-export const SITE_URL = (process.env.PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+// The site's public address. On Vercel this is picked up automatically from the
+// production domain (so renaming the domain or adding a custom one just works).
+// SITE_URL overrides it if ever needed.
+function siteUrl() {
+  if (process.env.SITE_URL) return process.env.SITE_URL;
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  return process.env.PUBLIC_SITE_URL || "http://localhost:3000";
+}
+export const SITE_URL = siteUrl().replace(/\/$/, "");
 export const IS_PROD = process.env.NODE_ENV === "production";
 
 // Gmail allows about 500 emails in any 24 hours; keep headroom for retries.
